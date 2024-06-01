@@ -1,13 +1,7 @@
 using Assets.Scripts;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class FollowCam : MonoBehaviour
 {
@@ -21,6 +15,10 @@ public class FollowCam : MonoBehaviour
     public GameObject castle_2lvl;
     public GameObject castle_3lvl;
     public Text level;
+    public Text player1;
+    public Text player2;
+    public Text allShots;
+    public Color textColor = new Color(255 / 255f, 64 / 255f, 64 / 255f);
     // Start is called before the first frame update
 
 
@@ -38,6 +36,14 @@ public class FollowCam : MonoBehaviour
         level = go.GetComponent<Text>();
         level.text += GameStatistick.Level.ToString();
 
+
+        go = GameObject.Find("Player1");
+        player1 = go.GetComponent<Text>();
+        player1.text = $"Player 1 : {GameStatistick.ScorePlayer1}";
+        go = GameObject.Find("Player2");
+        player2 = go.GetComponent<Text>();
+        player2.text = $"Player 2 : {GameStatistick.ScorePlayer2}";
+
         Vector3 pos = Vector3.zero;
         pos.x = 15f;
         pos.y = 0f;
@@ -47,6 +53,9 @@ public class FollowCam : MonoBehaviour
     }
     private void Update()
     {
+        GameObject go = GameObject.Find("AllShots");
+        allShots = go.GetComponent<Text>();
+        allShots.text = $"Shots : {GameStatistick.Shots}";
         if (Input.GetKey("escape"))
         {
             POI = null;
@@ -62,6 +71,16 @@ public class FollowCam : MonoBehaviour
 
         if (POI == null)
         {
+            if (GameStatistick.Shots % 2 == 0)
+            {
+                player1.color = Color.green;
+                player2.color = textColor;
+            }
+            else
+            {
+                player2.color = Color.green;
+                player1.color = textColor;
+            }
             destination = Vector3.zero;
         }
         else

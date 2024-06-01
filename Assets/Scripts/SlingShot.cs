@@ -1,7 +1,9 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SlingShot : MonoBehaviour
 {
@@ -15,10 +17,12 @@ public class SlingShot : MonoBehaviour
     public GameObject projectile;
     public bool aimingMode;
     
-
+    
 
     private Rigidbody projectileRigidBody;
-   
+
+
+
     private void OnMouseDown()
     {
         if (FollowCam.POI != null) return;
@@ -67,6 +71,8 @@ public class SlingShot : MonoBehaviour
             aimingMode = false;
             projectileRigidBody.isKinematic = false;
             projectileRigidBody.velocity = -mouseDelta * velocityMult;
+            GameStatistick.Shots++;
+           
             FollowCam.POI = projectile;
             projectile = null;
         }
