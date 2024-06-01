@@ -7,6 +7,7 @@ using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using UnityEngine.SceneManagement;
 using static UnityEditor.PlayerSettings;
+using UnityEngine.UI;
 
 public class FollowCam : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class FollowCam : MonoBehaviour
     public GameObject castle_1lvl;
     public GameObject castle_2lvl;
     public GameObject castle_3lvl;
+    public Text level;
     // Start is called before the first frame update
 
 
@@ -26,14 +28,18 @@ public class FollowCam : MonoBehaviour
     {
         GameObject castle = new GameObject();
         if (GameStatistick.Level==1)
-            castle = Instantiate<GameObject>(castle_3lvl);
+            castle = Instantiate<GameObject>(castle_1lvl);
         else if (GameStatistick.Level == 2)
             castle = Instantiate<GameObject>(castle_2lvl);
         else if (GameStatistick.Level == 3)
             castle = Instantiate<GameObject>(castle_3lvl);
 
+        GameObject go = GameObject.Find("Level");
+        level = go.GetComponent<Text>();
+        level.text += GameStatistick.Level.ToString();
+
         Vector3 pos = Vector3.zero;
-        pos.x = 5f;
+        pos.x = 15f;
         pos.y = 0f;
         pos.z = -10f;
         castle.transform.position = pos;
